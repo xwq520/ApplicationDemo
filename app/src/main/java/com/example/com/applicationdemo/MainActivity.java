@@ -1,5 +1,6 @@
 package com.example.com.applicationdemo;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -10,18 +11,23 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
+import com.example.com.application.R;
 
 import org.json.JSONObject;
 
@@ -33,17 +39,15 @@ public class MainActivity extends AppCompatActivity
 
     // 生产发送http网络请求的 请求队列
     private RequestQueue requestQueue = null;
+    private   TextView txt = null;
+    private NetworkImageView networkImageView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // 生产发送http网络请求的 请求队列
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        Toast.makeText(getApplicationContext(), requestQueue.toString() + "==Obj", Toast.LENGTH_LONG).show();
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +67,72 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        init();
     }
+
+    private void init(){
+        // 生产发送http网络请求的 请求队列
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        networkImageView  = (NetworkImageView)findViewById(R.id.networkImageView);
+        txt = (TextView)findViewById(R.id.txt_ShowRespones);
+    }
+
+    /*
+    * 利用NetworkImageView显示网络图片
+
+     * 利用Volley异步加载图片
+     *
+     * 注意方法参数: getImageListener(ImageView view, int defaultImageResId, int
+     * errorImageResId) 第一个参数:显示图片的ImageView 第二个参数:默认显示的图片资源 第三个参数:加载错误时显示的图片资源
+     */
+    private void showImageByNetworkImageView(){
+        String imageUrl="http://avatar.csdn.net/6/6/D/1_lfdfhl.jpg";
+
+        // LruCache 保存一个强引用来限制内容数量，每当Item被访问的时候，此Item就会移动到队列的头部。
+        //  当cache已满的时候加入新的item时，在队列尾部的item会被回收。
+        //  如果你cache的某个值需要明确释放，重写entryRemoved()
+        // 如果key相对应的item丢掉啦，重写create().这简化了调用代码，即使丢失了也总会返回。
+        // 默认cache大小是测量的item的数量，重写sizeof计算不同item的 大小。  int cacheSize = 4 * 1024 * 1024; // 4MiB
+        //  * 不允许key或者value为null
+        //  当get（），put（），remove（）返回值为null时，key相应的项不在cache中
+
+        // 获取到可用内存的最大值，使用内存超出这个值会引起OutOfMemory异常。
+        // LruCache通过构造函数传入缓存值，以KB为单位。 一般来说最大值的1/8左右就可以了。
+        int maxMemory = ((int) (Runtime.getRuntime().maxMemory() / 1024));
+        final LruCache<String, Bitmap> lruCache = new LruCache<String, Bitmap>(2 * 1024 * 1024){
+            protected int sizeOf(String key, Bitmap value) {
+                            return value.getByteCount();
+                      }
+         };
+        ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
+            @Override
+            public void putBitmap(String key, Bitmap value) {
+                lruCache.put(key, value);
+            }
+
+            @Override
+            public Bitmap getBitmap(String key) {
+                return lruCache.get(key);
+            }
+        };
+        ImageLoader imageLoader = new ImageLoader(requestQueue, imageCache);
+
+ /*       ImageLoader.ImageListener listener = ImageLoader.getImageListener(networkImageView,
+                R.mipmap.ic_launcher,);
+        imageLoader.get(imageUrl, listener);
+*/
+        networkImageView.setTag("url");
+        networkImageView.setImageUrl(imageUrl, imageLoader);
+        networkImageView.setErrorImageResId(R.mipmap.error);
+        networkImageView.setDefaultImageResId(R.mipmap.ic_launcher);
+
+        // 情况缓存 evictAll
+        // lruCache.evictAll();
+
+        txt.setText("已缓存："+lruCache.size()+"=maxMemory:"+maxMemory);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -105,24 +174,30 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
-            StringBuilder httpurl = new StringBuilder("http://www.weather.com.cn/data/sk/101210101.html");
+            StringBuilder httpurl = new StringBuilder("http://gc.ditu.aliyun.com/geocoding?a=%E6%9D%AD%E5%B7%9E%E5%B8%82");
+            // http请求的参数
             Map<String, String> map = new HashMap<String, String>();
             map.put("name1", "value1");
             map.put("name2", "value2");
             JSONObject jsonObject = new JSONObject(map);
-            JsonRequest<JSONObject> jsonRequest = new JsonObjectRequest(httpurl.toString(), null,
+            JsonRequest<JSONObject> jsonRequest = new JsonObjectRequest(Request.Method.POST, httpurl.toString(), jsonObject,
                     new Response.Listener<JSONObject>() {
-                        @Override
+                          @Override
                         public void onResponse(JSONObject response) {
                             Log.d("TAG", response.toString());
-                            Toast.makeText(getApplicationContext(), response.toString()+"==OK", Toast.LENGTH_LONG).show();
+                            txt.setText("请求后响应的JSON_DATA=" + response.toString());
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "VolleyError", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                 }
             });
+            //超时时间10s,最大重连次数2次
+            // jsonRequest.setRetryPolicy(new DefaultRetryPolicy(10 * 1000, 2, 1.0f));
+            // 开启缓存，默认是开启缓存
+            jsonRequest.setShouldCache(true);
+            // 默认的是5M磁盘缓存
             requestQueue.add(jsonRequest);
 
 
@@ -151,9 +226,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_gallery) {
             Toast.makeText(getApplicationContext(), "nav_gallery", Toast.LENGTH_LONG).show();
-
+            txt.setText("");
         } else if (id == R.id.nav_slideshow) {
-
+            showImageByNetworkImageView();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -166,4 +241,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

@@ -27,49 +27,49 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "com.example.com.applicationdemo"
+        applicationId "com.example.com.application"
         minSdkVersion 17  // 向下兼容的最小版本、编译版本
         targetSdkVersion 23 // 目标最高版本
         versionCode 1
         versionName "1.0"
-       // signingConfig signingConfigs.appkey
+        // signingConfig signingConfigs.appkey
     }
 
     // app 编译的类型
     buildTypes {
-            // ==== 生产环境，打包可在市场发布的app
-            //这里的名字自定义，不要求大小写
-            release{
-                // 这里是在 applicationId 中添加了一个后缀。所以『.』要加上
-                applicationIdSuffix ".release"
-                // 这里的作用是选择是否混淆代码
-                minifyEnabled true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.appkey
-                zipAlignEnabled true    //混淆后的zip优化，默认为true，可不写。当不显示配置为true时，不会生成unaligned.apk
-            }
-           // == 测试环境
-            dev{
-                applicationIdSuffix ".dev"
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
+        // ==== 生产环境，打包可在市场发布的app
+        //这里的名字自定义，不要求大小写
+        release {
+            // 这里是在 applicationId 中添加了一个后缀。所以『.』要加上
+            applicationIdSuffix ".release"
+            // 这里的作用是选择是否混淆代码
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.appkey
+            zipAlignEnabled true    //混淆后的zip优化，默认为true，可不写。当不显示配置为true时，不会生成unaligned.apk
         }
+        // == 测试环境
+        dev {
+            applicationIdSuffix ".dev"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 
     // 这里是为了不同 的版本 设置一些特殊的参数，并不直接和 buildType 关联。
     // 如果 手机不同的厂商  需要设置特别的参数就可以在这里传入
-    productFlavors{
-       //自定义名字不过不能和上面buildType中相同，不然Gradle编译会不通过。在这里使用了『flavors_』前缀以便区分。
+    productFlavors {
+        //自定义名字不过不能和上面buildType中相同，不然Gradle编译会不通过。在这里使用了『flavors_』前缀以便区分。
         flavors_rel {
             // manifestPlaceholders中写到的『str』，『package_name』不支持用大写，否则Gradle编译会不通过。
             // 这里所设置的变量可以直接使用在『AndroidManifest.xml』中，使用方式为：${package_name}
             // android:label="${package_name}"
-            manifestPlaceholders = [str: "releaseStr", package_name: "com.example.com.applicationdemo.release"]
+            manifestPlaceholders = [str: "releaseStr", package_name: "com.example.com.application.release"]
             // 这里的参数是为了在 java 代码中使用，具体的使用方式为：context.getResources().getString(R.string.strKey);
             resValue("string", "strKey", "releaseStrValue")
         }
         flavors_dev {
-            manifestPlaceholders = [str: "devStr", package_name: "com.example.com.applicationdemo.dev"]
+            manifestPlaceholders = [str: "devStr", package_name: "com.example.com.application.dev"]
             resValue("string", "strKey", "devStrValue")
         }
     }
@@ -83,4 +83,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }
