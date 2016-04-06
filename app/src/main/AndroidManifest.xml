@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
 
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -23,7 +24,6 @@
         <activity
             android:name="com.example.com.applicationdemo.LaunchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,8 +32,19 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.com.applicationdemo.MainActivity" />
-        <activity android:name="com.example.com.applicationdemo.SplashActivity" />
-        <activity android:name="com.example.com.applicationdemo.SplachPageActivity"></activity>
+        <activity
+            android:name="com.example.com.applicationdemo.SplachPageActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name="com.example.com.applicationdemo.MainTabActivity" />
+        <!-- android:theme="@style/AppTheme.NoActionBar" -->
+        <activity android:name="com.example.com.applicationdemo.tabbar.AddressActivity" />
+        <activity android:name="com.example.com.applicationdemo.tabbar.MeActivity" />
+        <activity android:name="com.example.com.applicationdemo.tabbar.TakeActivity" />
+        <activity
+            android:name="com.example.com.applicationdemo.tabbar.FindActivity"
+            android:label="" />
+        <activity android:name="com.example.com.applicationdemo.PlayActivity">
+        </activity>
     </application>
 
 </manifest>

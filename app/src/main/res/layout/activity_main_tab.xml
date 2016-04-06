@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.0" >
+        </FrameLayout>
+      <!--  1、用TabHost+RadioGroup搭建基本布局，以RadioGroup代替TabWidget
+            2、设置按钮和文字的的样式和selector
+            3、创建相应的Activity
+            4、实现按钮和内容切换
+       -->
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+        </TabWidget>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:layout_gravity="bottom"
+            android:paddingBottom="5dp">
+
+            <RadioButton
+                android:id="@+id/talk"
+                style="@style/rbt_bottom"
+                android:drawableTop="@drawable/tabbar_bg_address_select"
+                android:text="发现"
+                android:checked="true"  />
+
+            <RadioButton
+                android:id="@+id/address"
+                style="@style/rbt_bottom"
+                android:drawableTop="@drawable/tabbar_bg_find_select"
+                android:text="理财超市"  />
+
+            <RadioButton
+                android:id="@+id/find"
+                style="@style/rbt_bottom"
+                android:drawableTop="@drawable/tabbar_bg_me_select"
+                android:text="计划"  />
+
+            <RadioButton
+                android:id="@+id/me"
+                style="@style/rbt_bottom"
+                android:drawableTop="@drawable/tabbar_bg_take_select"
+                android:text="我的资产" />
+        </RadioGroup>
+    </LinearLayout>
+</TabHost>

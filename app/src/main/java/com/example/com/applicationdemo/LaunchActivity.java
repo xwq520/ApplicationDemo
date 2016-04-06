@@ -52,7 +52,7 @@ public class LaunchActivity extends Activity {
                 @Override
                 public void run() {
                     //从启动动画ui跳转到主ui
-                    Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LaunchActivity.this, MainTabActivity.class);
                     startActivity(intent);
                     LaunchActivity.this.finish(); // 结束启动动画界面
                 }

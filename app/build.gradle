@@ -28,7 +28,7 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "com.example.com.application"
-        minSdkVersion 17  // 向下兼容的最小版本、编译版本
+        minSdkVersion 11  // 向下兼容的最小版本、编译版本 Android 3.0(ActionBar)
         targetSdkVersion 23 // 目标最高版本
         versionCode 1
         versionName "1.0"

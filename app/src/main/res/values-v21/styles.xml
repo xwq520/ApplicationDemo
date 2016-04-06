@@ -3,6 +3,12 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!--windowDrawsSystemBarBackgrounds ，将它设置为true，系统将在你的window里面绘制status bar，
+        默认为 TRUE ，之所以要写出来是因为你的theme有可能是继承过来的，确保为true。
+        （在这里小插曲一下，因调试时，总以为注释了这段代码就以为是false，程序员思维害苦了我。
+        另外从命名来看，Android把它称为system bar，可能是为了与能被我们处理的status bar区分开而做的改变。）
+　　statusBarColor 设置为透明是因为我们不再需要系统的status bar，因为我们无法控制它的位置，
+后面我们将交由 DrawerLayout 来处理。-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>

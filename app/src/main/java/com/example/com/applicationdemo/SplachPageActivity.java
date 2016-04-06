@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
@@ -44,6 +43,7 @@ public class SplachPageActivity extends Activity implements OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
+
         initView();
         initData();
     }
@@ -97,7 +97,7 @@ public class SplachPageActivity extends Activity implements OnClickListener,
                     @Override
                     public void onClick(View view) {
                         //从启动动画ui跳转到主ui
-                        Intent intent = new Intent(SplachPageActivity.this,MainActivity.class);
+                        Intent intent = new Intent(SplachPageActivity.this,MainTabActivity.class);
                         startActivity(intent);
                         SplachPageActivity.this.finish(); // 结束引导界面
                     }
