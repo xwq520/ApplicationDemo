@@ -1,13 +1,18 @@
 package com.example.com.applicationdemo;
 
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.TabHost;
+import android.widget.Toast;
+
 import com.example.com.application.R;
 import com.example.com.applicationdemo.tabbar.AddressActivity;
 import com.example.com.applicationdemo.tabbar.MeActivity;
@@ -79,6 +84,50 @@ public class MainTabActivity extends TabActivity implements
                     break;
             }
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this).setTitle("提示")
+                .setMessage("确认退出吗？")
+                .setIcon(R.mipmap.ic_launcher)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击“确认”后的操作
+                        MainTabActivity.this.finish();
+                        // 结束进程
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                })
+                .setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击“返回”后的操作,这里不设置没有任何操作
+                    }
+                }).show();
+// super.onBackPressed();
+    }
+
+
+    // 当继承TabActivity时，同学们是不是onKeyDown方法没用，那是应为冲突了，可以用dispatchKeyEvent方法
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK &&
+                event.getRepeatCount() == 0 &&
+                event.getAction() == KeyEvent.ACTION_DOWN)        {
+
+            onBackPressed();
+
+            return false;
+        }else{
+            return super.dispatchKeyEvent(event);
+        }
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
     }
 }
