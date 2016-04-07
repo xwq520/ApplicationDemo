@@ -43,8 +43,11 @@
         <activity
             android:name="com.example.com.applicationdemo.tabbar.FindActivity"
             android:label="" />
-        <activity android:name="com.example.com.applicationdemo.PlayActivity">
-        </activity>
+        <activity android:name="com.example.com.applicationdemo.PlayActivity"/>
+        <activity android:name="com.example.com.applicationdemo.PulltorefreshlistviewActivity"/>
+        <activity android:name="com.example.com.applicationdemo.ShowAdvertisementActivity"/>
+        <activity android:name="com.example.com.applicationdemo.WebViewActivity"/>
+
     </application>
 
 </manifest>

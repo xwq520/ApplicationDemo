@@ -62,6 +62,8 @@ public class MainTabActivity extends TabActivity implements
         /*显示App icon左侧的back键
          ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);*/
+
+
     }
 
     @Override
@@ -110,7 +112,8 @@ public class MainTabActivity extends TabActivity implements
     }
 
 
-    // 当继承TabActivity时，同学们是不是onKeyDown方法没用，那是应为冲突了，可以用dispatchKeyEvent方法
+    // 当继承TabActivity时，同学们是不是onKeyDown方法没用，
+    // //那是应为冲突了，可以用dispatchKeyEvent方法
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK &&

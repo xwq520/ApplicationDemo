@@ -3,9 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <TextView
+
+    <com.example.com.applicationdemo.RefreshListView
+        android:id="@+id/addresshlistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello World Address!"
-        android:id="@+id/textAddress" />
+        android:divider="#FFF"
+        android:dividerHeight="1px" >
+    </com.example.com.applicationdemo.RefreshListView>
+
+
 </LinearLayout>
