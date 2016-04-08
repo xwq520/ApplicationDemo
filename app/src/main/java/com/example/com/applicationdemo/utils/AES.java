@@ -16,6 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Created by xwqaa on 2016/4/8.
  * Android和java两平台AES的互相加密解密
+ * //注意: 这里的aesKey(秘钥必须一个16进制的一串16长度的密钥)
  */
 public class AES {
 
@@ -28,9 +29,6 @@ public class AES {
     static private Cipher cipher;
 
     static boolean isInited = false;
-
-    //注意: 这里的password(秘钥必须是16位的)
-    private static final String keyBytes = "abcdefgabcdefg12";
 
     private static void init() {
         try {
@@ -82,7 +80,7 @@ public class AES {
             init();
         }
         //首先 生成一个密钥(SecretKey),
-        //然后,通过这个秘钥,返回基本编码格式的密钥，如果此密钥不支持编码，则返回 null。
+        //然后,通过这个密钥,返回基本编码格式的密钥，如果此密钥不支持编码，则返回 null。
         return keyGen.generateKey().getEncoded();
     }
 
@@ -107,7 +105,7 @@ public class AES {
             e.printStackTrace();
         }
         try {
-            //按单部分操作加密或解密数据，或者结束一个多部分操作。(不知道神马意思)
+            // 按单部分操作加密或解密数据，或者结束一个多部分操作。
             encryptedText = cipher.doFinal(content);
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
@@ -213,29 +211,44 @@ public class AES {
 
     /**
      * 加密
+     * @param content 要加密的内容
+     * @param aesKey 加密所需的密钥 长度为：8位 如：EWERWE23
+     * @return 加密结果返回
      */
-    public static String encode(String content) {
+    public static String encode(String content,String aesKey) {
+        // 把字符串aesKey转化成16进制，然后作为 AES密钥Key
+       // aesKey =  parseByte2HexStr(aesKey.getBytes());
         //加密之后的字节数组,转成16进制的字符串形式输出
-        return parseByte2HexStr(encrypt(content, keyBytes));
+        return parseByte2HexStr(encrypt(content, aesKey));
     }
 
     /**
      * 解密
+     * @param content 要解密密的内容
+     * @param aesKey 解密所需的密钥 长度为：8位 如：EWERWE23
+     * @return 解密成功后的原文返回
      */
-    public static String decode(String content) {
+    public static String decode(String content,String aesKey) {
+        // 把字符串aesKey转化成16进制，然后作为 AES密钥Key
+        // aesKey =  parseByte2HexStr(aesKey.getBytes());
         //解密之前,先将输入的字符串按照16进制转成二进制的字节数组,作为待解密的内容输入
-        byte[] b = decrypt(parseHexStr2Byte(content), keyBytes);
+        byte[] b = decrypt(parseHexStr2Byte(content), aesKey);
         return new String(b);
     }
 
     //测试用例
     public static void test1() {
         String content = "hello3<><>3@!#@我的爱人   ssss";
-        String pStr = encode(content);
+
+       // 密钥必须是16进制的16位长度；
+       // 注意：中文算2个字节（而转化16进制的一个字节的会生产3个值，所以一个中文转换成的16进制结果是2x3=6位）
+        String aesKey = "F45A9DBED84A15D6";
+        System.out.println("AES密钥：" + aesKey);
+        String pStr = encode(content,aesKey);
         System.out.println("加密前：" + content);
         System.out.println("加密后:" + pStr);
 
-        String postStr = decode(pStr);
+        String postStr = decode(pStr,aesKey);
         System.out.println("解密后：" + postStr);
     }
 
