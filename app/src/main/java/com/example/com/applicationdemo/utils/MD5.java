@@ -8,9 +8,12 @@ import java.security.NoSuchAlgorithmException;
  * MD5加密
  */
 public class MD5 {
-    /*
-    * MD5加密
-    */
+
+    /**
+     * 获取MD5加密结果
+     * @param str 要加密的字符串
+     * @return 获取MD5加密结果
+     */
     public static String getDigest(String str) {
         MessageDigest messageDigest = null;
         try {
@@ -35,9 +38,10 @@ public class MD5 {
 
     public static void main(String[] args) {
         MD5 md = new MD5();
-        String content = "hello33@!#@   ssss";
+        String content = "1Hello worid!"; // 403A24DA622ADA6CF45A9DBED84A15D6
         String pStr = md.getDigest(content);
-        String pStr1 = md.getDigest(content);
+        MD5 md1 = new MD5();
+        String pStr1 = md1.getDigest("Hello worid!");
         System.out.println("加密前1：" + content);
         System.out.println("加密后1: " + pStr1);
         System.out.println("加密后 : " + pStr);

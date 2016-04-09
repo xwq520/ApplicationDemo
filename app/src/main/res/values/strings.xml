@@ -10,4 +10,10 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+    <!--dialog提示框-->
+    <string name="dialog_default_title">Here\'s a message!</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="LOADING">加载中...</string>
 </resources>
