@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import com.example.com.application.R;
 import com.example.com.applicationdemo.PlayActivity;
 import com.example.com.applicationdemo.dialog.CustomProgressDialog;
+import com.example.com.applicationdemo.dialog.DialogContent;
 import com.example.com.applicationdemo.dialog.SweetAlertDialog;
 import com.example.com.applicationdemo.pay.PayDemoActivity;
 
@@ -81,11 +82,23 @@ public class FindActivity extends AppCompatActivity implements OnClickListener {
             // 让ProgressDialog显示
             xh_pDialog.show();*/
 
-            CustomProgressDialog dialog  =  CustomProgressDialog.createDialog(this);
-            dialog.setMessage("正在加载中...");
-            dialog.show();
+            /*  public void onClick(View v) {
+                if(MainActivity.this.show.isChecked()){
+               //设置为明文显示
+             MainActivity.this.passwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+                   //设置为秘闻显示
+                    MainActivity.this.passwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }*/
+           /* CustomProgressDialog dialog  =  CustomProgressDialog.createDialog(this);
+            dialog.setMessage("加载中...");
+            dialog.show();*/
             // dialog.dismiss();
 
+            DialogContent dialog  =  DialogContent.createDialogContent(this);
+            dialog.show();
 
             /*xh_count = 0;
             // 创建ProgressDialog对象

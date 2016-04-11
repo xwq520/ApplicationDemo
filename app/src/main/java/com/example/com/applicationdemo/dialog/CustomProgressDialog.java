@@ -41,9 +41,10 @@ public class CustomProgressDialog extends Dialog {
             return;
         }
 
-        ImageView imageView = (ImageView) customProgressDialog.findViewById(R.id.loadingImageView);
-        AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getBackground();
-        animationDrawable.start();
+        // 此处的代码在xml里也有配置
+       //  ImageView imageView = (ImageView) customProgressDialog.findViewById(R.id.loadingImageView);
+  //      AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getBackground();
+    //    animationDrawable.start();
     }
 
     /**
