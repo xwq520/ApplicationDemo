@@ -8,7 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="@android:color/darker_gray"
+
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
          >
+        <!--沉浸式状态栏
+            android:clipToPadding 定义布局间是否有间距
+            android:fitsSystemWindows="true" 意思就是设置应用布局时是否考虑系统窗口布局；
+            如果为true，将调整系统窗口布局以适应你自定义的布局。
+            比如系统有状态栏，应用也有状态栏时。看你这个布局代码，恰恰是在定义标题栏样式，所以用到这行代码了。
+        -->
     </com.example.com.applicationdemo.RefreshListView>
 
 </RelativeLayout>

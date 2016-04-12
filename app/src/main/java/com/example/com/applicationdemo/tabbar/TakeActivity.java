@@ -2,12 +2,14 @@ package com.example.com.applicationdemo.tabbar;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -19,7 +21,7 @@ import com.example.com.applicationdemo.ShowAdvertisementActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TakeActivity extends AppCompatActivity implements View.OnClickListener ,OnRefreshListener {
+public class TakeActivity extends AppCompatActivity implements View.OnClickListener, OnRefreshListener {
 
     private ActionBar actionBar;
     private Boolean bool = true;
@@ -30,9 +32,12 @@ public class TakeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.maintab_take);
 
+
         actionBar = getSupportActionBar();
+
 
         // 自定义的ListView
         rListView = (RefreshListView) findViewById(R.id.refreshlistview);
@@ -46,27 +51,28 @@ public class TakeActivity extends AppCompatActivity implements View.OnClickListe
         rListView.setAdapter(adapter);
         rListView.setOnRefreshListener(this);
 
-      }
+    }
+
+
 
     @Override
     public void onClick(View v) {
-        if(bool){
+        if (bool) {
             actionBar.hide();
             bool = false;
-           // setHideAnimation(actionBar,1);
+            // setHideAnimation(actionBar,1);
 
             //从启动动画ui跳转到主ui
 //            Intent intent = new Intent(TakeActivity.this,PulltorefreshlistviewActivity.class);
 //            startActivity(intent);
 
-        }else{
+        } else {
             actionBar.show();
             bool = true;
 
         }
 
     }
-
 
 
     private class MyAdapter extends BaseAdapter {
@@ -94,7 +100,7 @@ public class TakeActivity extends AppCompatActivity implements View.OnClickListe
             // TODO Auto-generated method stub
             TextView textView = new TextView(TakeActivity.this);
             textView.setText(textList.get(position));
-         //   textView.setTextColor(Color.BLACK);
+            //   textView.setTextColor(Color.BLACK);
             textView.setTextSize(18.0f);
             return textView;
         }
@@ -133,7 +139,7 @@ public class TakeActivity extends AppCompatActivity implements View.OnClickListe
                 textList.add("这是加载更多出来的数据3");
 
                 //从启动动画ui跳转到主ui
-                Intent intent = new Intent(TakeActivity.this,ShowAdvertisementActivity.class);
+                Intent intent = new Intent(TakeActivity.this, ShowAdvertisementActivity.class);
                 startActivity(intent);
 
                 return null;
