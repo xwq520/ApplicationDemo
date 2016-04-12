@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
-            StringBuilder httpurl = new StringBuilder("http://gc.ditu.aliyun.com/geocoding?a=%E6%9D%AD%E5%B7%9E%E5%B8%82");
+            StringBuilder  httpurl = new StringBuilder("http://gc.ditu.aliyun.com/geocoding?a=%E6%9D%AD%E5%B7%9E%E5%B8%82");
             // http请求的参数
             Map<String, String> map = new HashMap<String, String>();
             map.put("name1", "value1");
